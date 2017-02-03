@@ -28,8 +28,8 @@
 
 - name: 'Node.js | Define NPM user.'
   set_fact:
-    nodejs_npm_user: '{{ nodejs_npm_default_user }}'
-  when: '{{ not nodejs_npm_user }}'
+    nodejs_npm_global_user: '{{ ansible_user }}'
+  when: '{{ not nodejs_npm_global_user }}'
   tags:
     - 'nodejs'
     - 'nodejs-package'
@@ -39,8 +39,8 @@
 
 - name: 'Node.js | Define NPM group.'
   set_fact:
-    nodejs_npm_user: '{{ nodejs_npm_user }}'
-  when: '{{ not nodejs_npm_group }}'
+    nodejs_npm_global_group: '{{ nodejs_npm_global_user }}'
+  when: '{{ not nodejs_npm_global_group }}'
   tags:
     - 'nodejs'
     - 'nodejs-package'

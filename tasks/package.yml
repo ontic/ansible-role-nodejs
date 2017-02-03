@@ -84,8 +84,8 @@
     state: '{{ item.state | default(omit) }}'
     global: yes
   environment:
-    NPM_CONFIG_PREFIX: '{{ nodejs_npm_config_prefix }}'
-    NODE_PATH: '{{ nodejs_npm_config_prefix }}/lib/node_modules'
+    NPM_CONFIG_PREFIX: '{{ nodejs_npm_global_config_prefix }}'
+    NODE_PATH: '{{ nodejs_npm_global_config_prefix }}/lib/node_modules'
     NPM_CONFIG_UNSAFE_PERM: '{{ npm_config_unsafe_perm }}'
   with_items: '{{ nodejs_npm_global_packages }}'
   when: '{{ nodejs_npm_global_packages }}'

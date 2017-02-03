@@ -10,9 +10,9 @@
 - hosts: 'all'
   vars:
     nodejs_version: '6.x'
-    nodejs_npm_user: 'root'
-    nodejs_npm_config_prefix: '/root/.npm-global'
-    nodejs_npm_config_unsafe_perm: 'true'
+    nodejs_npm_global_user: 'root'
+    nodejs_npm_global_config_prefix: '/root/.npm-global'
+    nodejs_npm_global_config_unsafe_perm: 'true'
     nodejs_npm_global_packages:
       - name: 'node-sass'
       - name: 'jslint'

@@ -10,10 +10,10 @@
 - name: 'Node.js | Ensure the NPM global directory exists.'
   become: yes
   file:
-    path: '{{ nodejs_npm_config_prefix }}'
+    path: '{{ nodejs_npm_global_config_prefix }}'
     state: 'directory'
-    owner: '{{ nodejs_npm_user }}'
-    group: '{{ nodejs_npm_group }}'
+    owner: '{{ nodejs_npm_global_user }}'
+    group: '{{ nodejs_npm_global_group }}'
     mode: '0755'
 
 - name: 'Node.js | Configure global PATH environment variable.'

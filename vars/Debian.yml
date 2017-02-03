@@ -6,6 +6,3 @@
 # Copyright (c) 2010-2016 Ontic. (http://www.ontic.com.au). All rights reserved.
 
 ---
-
-nodejs_npm_default_user: '{{ ansible_user }}'
-nodejs_npm_config_prefix: '/usr/local/lib/npm'

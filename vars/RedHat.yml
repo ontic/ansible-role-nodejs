@@ -7,8 +7,6 @@
 
 ---
 
-nodejs_npm_default_user: '{{ ansible_user }}'
-nodejs_npm_config_prefix: '/usr/local/lib/npm'
 nodejs_rpm_path: '{{ "pub_" + nodejs_version if nodejs_version != "0.10" else "pub" }}'
 nodejs_rpm_key: 'http://rpm.nodesource.com/pub/el/NODESOURCE-GPG-SIGNING-KEY-EL'
 nodejs_rpm_url: 'http://rpm.nodesource.com/{{ nodejs_rpm_path }}/el/{{ ansible_distribution_major_version }}/{{ ansible_architecture }}/nodesource-release-el{{ ansible_distribution_major_version }}-1.noarch.rpm'
