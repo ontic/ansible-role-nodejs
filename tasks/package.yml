@@ -86,7 +86,7 @@
   environment:
     NPM_CONFIG_PREFIX: '{{ nodejs_npm_global_config_prefix }}'
     NODE_PATH: '{{ nodejs_npm_global_config_prefix }}/lib/node_modules'
-    NPM_CONFIG_UNSAFE_PERM: '{{ npm_config_unsafe_perm }}'
+    NPM_CONFIG_UNSAFE_PERM: '{{ nodejs_npm_global_config_unsafe_perm }}'
   with_items: '{{ nodejs_npm_global_packages }}'
   when: '{{ nodejs_npm_global_packages }}'
 
@@ -105,6 +105,6 @@
   environment:
     NPM_CONFIG_PREFIX: '{{ npm_config_prefix }}'
     NODE_PATH: '{{ npm_config_prefix }}/lib/node_modules'
-    NPM_CONFIG_UNSAFE_PERM: '{{ npm_config_unsafe_perm }}'
+    NPM_CONFIG_UNSAFE_PERM: '{{ nodejs_npm_global_config_unsafe_perm }}'
   with_items: '{{ nodejs_npm_global_packages }}'
   when: '{{ nodejs_npm_global_packages and item.state | default("present") != "absent" }}'
