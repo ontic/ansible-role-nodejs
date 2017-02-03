@@ -1,0 +1,28 @@
+# This source file is subject to the (Open Source Initiative) BSD license
+# that is bundled with this package in the LICENSE file. It is also available
+# through the world-wide-web at this URL: http://www.ontic.com.au/license.html
+# If you did not receive a copy of the license and are unable to obtain it through
+# the world-wide-web, please send an email to license@ontic.com.au immediately.
+# Copyright (c) 2010-2016 Ontic. (http://www.ontic.com.au). All rights reserved.
+
+---
+
+- hosts: 'all'
+  vars:
+    nodejs_version: '6.x'
+    nodejs_npm_user: 'root'
+    nodejs_npm_config_prefix: '/root/.npm-global'
+    nodejs_npm_config_unsafe_perm: 'true'
+    nodejs_npm_global_packages:
+      - name: 'node-sass'
+      - name: 'jslint'
+        version: '0.10.0'
+      - name: 'colors'
+        state: 'absent'
+  pre_tasks:
+    - name: 'Update apt cache.'
+      apt:
+        update_cache: yes
+        cache_valid_time: 600
+  roles:
+    - { role: 'ontic.nodejs' }

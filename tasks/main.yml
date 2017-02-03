@@ -1,0 +1,61 @@
+# This source file is subject to the (Open Source Initiative) BSD license
+# that is bundled with this package in the LICENSE file. It is also available
+# through the world-wide-web at this URL: http://www.ontic.com.au/license.html
+# If you did not receive a copy of the license and are unable to obtain it through
+# the world-wide-web, please send an email to license@ontic.com.au immediately.
+# Copyright (c) 2010-2016 Ontic. (http://www.ontic.com.au). All rights reserved.
+
+---
+
+- name: 'Node.js | Include OS-specific variables.'
+  include_vars: '{{ ansible_os_family }}.yml'
+  tags:
+    - 'nodejs'
+    - 'nodejs-package'
+    - 'nodejs-configure'
+    - 'package'
+    - 'configure'
+
+- name: 'Node.js | Include distribution-specific variables.'
+  include_vars: 'RedHat-7.yml'
+  when: '{{ ansible_os_family == "RedHat" and ansible_distribution_major_version == "7" }}'
+  tags:
+    - 'nodejs'
+    - 'nodejs-package'
+    - 'nodejs-configure'
+    - 'package'
+    - 'configure'
+
+- name: 'Node.js | Define NPM user.'
+  set_fact:
+    nodejs_npm_user: '{{ nodejs_npm_default_user }}'
+  when: '{{ not nodejs_npm_user }}'
+  tags:
+    - 'nodejs'
+    - 'nodejs-package'
+    - 'nodejs-configure'
+    - 'package'
+    - 'configure'
+
+- name: 'Node.js | Define NPM group.'
+  set_fact:
+    nodejs_npm_user: '{{ nodejs_npm_user }}'
+  when: '{{ not nodejs_npm_group }}'
+  tags:
+    - 'nodejs'
+    - 'nodejs-package'
+    - 'nodejs-configure'
+    - 'package'
+    - 'configure'
+
+- include: 'package.yml'
+  tags:
+    - 'nodejs'
+    - 'nodejs-package'
+    - 'package'
+
+- include: 'configure.yml'
+  tags:
+    - 'nodejs'
+    - 'nodejs-configure'
+    - 'configure'

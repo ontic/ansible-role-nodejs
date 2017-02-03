@@ -1,0 +1,110 @@
+# This source file is subject to the (Open Source Initiative) BSD license
+# that is bundled with this package in the LICENSE file. It is also available
+# through the world-wide-web at this URL: http://www.ontic.com.au/license.html
+# If you did not receive a copy of the license and are unable to obtain it through
+# the world-wide-web, please send an email to license@ontic.com.au immediately.
+# Copyright (c) 2010-2016 Ontic. (http://www.ontic.com.au). All rights reserved.
+
+---
+
+- name: 'Node.js | Debian | Install HTTPS transport.'
+  become: yes
+  apt:
+    name: 'apt-transport-https'
+    state: 'present'
+  when: '{{ ansible_os_family == "Debian" }}'
+
+- name: 'Node.js | Debian | Update repository key.'
+  become: yes
+  apt_key:
+    id: '68576280'
+    url: 'https://keyserver.ubuntu.com/pks/lookup?op=get&fingerprint=on&search=0x1655A0AB68576280'
+    state: 'present'
+  register: 'nodejs_key'
+  when: '{{ ansible_os_family == "Debian" }}'
+
+- name: 'Node.js | Debian | Update repository list.'
+  become: yes
+  apt_repository:
+    repo: '{{ item }}'
+    state: 'present'
+  register: 'nodejs_list'
+  with_items:
+    - 'deb https://deb.nodesource.com/node_{{ nodejs_version }} {{ ansible_distribution_release }} main'
+    - 'deb-src https://deb.nodesource.com/node_{{ nodejs_version }} {{ ansible_distribution_release }} main'
+  when: '{{ ansible_os_family == "Debian" }}'
+
+- name: 'Node.js | Debian | Update APT cache.'
+  become: yes
+  apt:
+    update_cache: yes
+  when: '{{ ansible_os_family == "Debian" and (nodejs_key.changed or nodejs_list.changed) }}'
+
+- name: 'Node.js | Debian | Install Node.js.'
+  become: yes
+  apt:
+    name: 'nodejs={{ nodejs_version|regex_replace("x", "") }}*'
+    state: 'present'
+  when: '{{ ansible_os_family == "Debian" }}'
+
+- name: 'Node.js | RedHat | Import GPG keys.'
+  become: yes
+  rpm_key:
+    key: '{{ nodejs_rpm_key }}'
+    state: 'present'
+  when: '{{ ansible_os_family == "RedHat" }}'
+
+- name: 'Node.js | RedHat | Install Node.js source repository.'
+  become: yes
+  yum:
+    name: '{{ nodejs_rpm_url }}'
+    state: 'present'
+  when: '{{ ansible_os_family == "RedHat" }}'
+
+- name: 'Node.js | RedHat | Install Node.js.'
+  become: yes
+  yum:
+    name: 'nodejs-{{ nodejs_version[0] }}.*'
+    enablerepo: 'epel,nodesource'
+    state: 'present'
+  when: '{{ ansible_os_family == "RedHat" }}'
+
+# TODO: Remove this task after Ansible 2.x npm module bug is fixed. See:
+# https://github.com/ansible/ansible-modules-extras/issues/1375
+- name: 'Node.js | Ensure NPM global packages are installed.'
+  become: yes
+  npm:
+    name: '{{ item.name }}'
+    version: '{{ item.version | default("latest") }}'
+    executable: '{{ item.executable | default(omit) }}'
+    ignore_scripts: '{{ item.ignore_scripts | default(omit) }}'
+    path: '{{ item.path | default(omit) }}'
+    production: '{{ item.production | default(omit) }}'
+    registry: '{{ item.registry | default(omit) }}'
+    state: '{{ item.state | default(omit) }}'
+    global: yes
+  environment:
+    NPM_CONFIG_PREFIX: '{{ nodejs_npm_config_prefix }}'
+    NODE_PATH: '{{ nodejs_npm_config_prefix }}/lib/node_modules'
+    NPM_CONFIG_UNSAFE_PERM: '{{ npm_config_unsafe_perm }}'
+  with_items: '{{ nodejs_npm_global_packages }}'
+  when: '{{ nodejs_npm_global_packages }}'
+
+- name: 'Node.js | Ensure NPM global packages are the latest release.'
+  become: yes
+  npm:
+    name: '{{ item.name }}'
+    version: '{{ item.version | default("latest") }}'
+    executable: '{{ item.executable | default(omit) }}'
+    ignore_scripts: '{{ item.ignore_scripts | default(omit) }}'
+    path: '{{ item.path | default(omit) }}'
+    production: '{{ item.production | default(omit) }}'
+    registry: '{{ item.registry | default(omit) }}'
+    state: 'latest'
+    global: yes
+  environment:
+    NPM_CONFIG_PREFIX: '{{ npm_config_prefix }}'
+    NODE_PATH: '{{ npm_config_prefix }}/lib/node_modules'
+    NPM_CONFIG_UNSAFE_PERM: '{{ npm_config_unsafe_perm }}'
+  with_items: '{{ nodejs_npm_global_packages }}'
+  when: '{{ nodejs_npm_global_packages and item.state | default("present") != "absent" }}'
