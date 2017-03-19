@@ -41,13 +41,13 @@ script:
     && (echo "Idempotence test: Passed" && exit 0)
     || (echo "Idempotence test: Failed" && exit 1)
   - >
-    sudo docker exec --tty "$(cat ${container_id})" env TERM=xterm ls /root/.npm-global/lib/node_modules/node-sass &>/dev/null
-    && (echo "Package node-sass was installed globally" && exit 0)
-    || (echo "Package node-sass was not installed globally" && exit 1)
+    sudo docker exec --tty "$(cat ${container_id})" env TERM=xterm ls /root/.npm-global/lib/node_modules/underscore &>/dev/null
+    && (echo "Package underscore was installed globally" && exit 0)
+    || (echo "Package underscore was not installed globally" && exit 1)
   - >
-    sudo docker exec --tty "$(cat ${container_id})" env TERM=xterm ls /root/.npm-global/lib/node_modules/jslint &>/dev/null
-    && (echo "Package jslint was installed globally" && exit 0)
-    || (echo "Package jslint was not installed globally" && exit 1)
+    sudo docker exec --tty "$(cat ${container_id})" env TERM=xterm ls /root/.npm-global/lib/node_modules/validator &>/dev/null
+    && (echo "Package validator was installed globally" && exit 0)
+    || (echo "Package validator was not installed globally" && exit 1)
   - 'sudo docker exec --tty "$(cat ${container_id})" env TERM=xterm which node'
   - 'sudo docker exec --tty "$(cat ${container_id})" env TERM=xterm node -v'
   - 'sudo docker exec --tty "$(cat ${container_id})" env TERM=xterm bash --login -c "npm root -g"'
