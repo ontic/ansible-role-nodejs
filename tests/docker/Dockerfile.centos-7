@@ -13,9 +13,8 @@ rm -f /lib/systemd/system/anaconda.target.wants/*;
 
 RUN yum -y install which
 RUN yum -y install epel-release
+RUN yum -y install git ansible sudo
 RUN yum clean all
-RUN easy_install pip
-RUN pip install git+git://github.com/ansible/ansible.git@devel
 RUN ansible-galaxy install ontic.account
 RUN ansible-galaxy install ontic.nodejs
 

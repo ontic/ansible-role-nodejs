@@ -30,6 +30,9 @@ before_install:
   - 'sudo docker pull ${distribution}:${version}'
   - 'sudo docker build --rm=true --file=tests/docker/Dockerfile.${distribution}-${version} --tag=${distribution}-${version}:ansible tests'
 
+install:
+  - 'pip install git+git://github.com/ansible/ansible.git@devel'
+
 script:
   - 'container_id=$(mktemp)'
   - 'sudo docker run --detach --volume="${PWD}":/etc/ansible/roles/${role}:ro ${run_opts} ${distribution}-${version}:ansible "${init}" > "${container_id}"'
