@@ -14,14 +14,13 @@ rm -f /lib/systemd/system/anaconda.target.wants/*;
 RUN yum -y install which
 RUN yum -y install epel-release
 RUN yum -y install git ansible sudo
-RUN yum -y install python-pip python-setuptools
 RUN yum clean all
-RUN pip install git+git://github.com/ansible/ansible.git@devel
 RUN ansible-galaxy install ontic.account
 RUN ansible-galaxy install ontic.nodejs
 
 RUN sed -i -e 's/^\(Defaults\s*requiretty\)/#--- \1/'  /etc/sudoers
 RUN echo -e '[local]\nlocalhost ansible_connection=local' > /etc/ansible/hosts
+RUN sed -i -e 's/#allow_world_readable_tmpfiles = False/allow_world_readable_tmpfiles = True/g' /etc/ansible/ansible.cfg
 
 VOLUME ["/sys/fs/cgroup"]
 CMD ["/usr/sbin/init"]
