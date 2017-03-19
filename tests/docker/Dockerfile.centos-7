@@ -15,12 +15,10 @@ RUN yum -y install which
 RUN yum -y install epel-release
 RUN yum -y install git ansible sudo
 RUN yum clean all
-RUN ansible-galaxy install ontic.account
 RUN ansible-galaxy install ontic.nodejs
 
 RUN sed -i -e 's/^\(Defaults\s*requiretty\)/#--- \1/'  /etc/sudoers
 RUN echo -e '[local]\nlocalhost ansible_connection=local' > /etc/ansible/hosts
-RUN sed -i -e 's/#allow_world_readable_tmpfiles = False/allow_world_readable_tmpfiles = True/g' /etc/ansible/ansible.cfg
 
 VOLUME ["/sys/fs/cgroup"]
 CMD ["/usr/sbin/init"]

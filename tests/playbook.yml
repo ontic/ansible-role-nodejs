@@ -9,12 +9,6 @@
 
 - hosts: 'all'
   vars:
-    account_groups:
-      - name: 'test'
-    account_users:
-      - name: 'test'
-        sudoer: yes
-        createhome: yes
     nodejs_version: '7.x'
     nodejs_npm_global_user: 'root'
     nodejs_npm_global_config_prefix: '/root/.npm-global'
@@ -24,9 +18,6 @@
       - name: 'validator'
         version: '7.0.0'
     nodejs_npm_packages:
-      - name: 'jsdom'
-        user: 'test'
-        global: yes
   pre_tasks:
     - name: 'Update apt cache.'
       apt:

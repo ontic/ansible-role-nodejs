@@ -35,7 +35,6 @@ script:
   - 'sudo docker run --detach --volume="${PWD}":/etc/ansible/roles/${role}:ro ${run_opts} ${distribution}-${version}:ansible "${init}" > "${container_id}"'
   - 'sudo docker exec --tty "$(cat ${container_id})" env TERM=xterm ansible-playbook /etc/ansible/roles/${role}/tests/${playbook} --syntax-check'
   - 'sudo docker exec --tty "$(cat ${container_id})" env TERM=xterm ansible-playbook /etc/ansible/roles/${role}/tests/${playbook}'
-  - 'sudo docker exec --tty "$(cat ${container_id})" env TERM=xterm ansible --version'
   - >
     sudo docker exec "$(cat ${container_id})" ansible-playbook /etc/ansible/roles/${role}/tests/${playbook}
     | tee /tmp/output.txt; grep -q "changed=0.*unreachable=0.*failed=0" /tmp/output.txt
@@ -49,10 +48,6 @@ script:
     sudo docker exec --tty "$(cat ${container_id})" env TERM=xterm ls /root/.npm-global/lib/node_modules/validator &>/dev/null
     && (echo "Package validator was installed globally" && exit 0)
     || (echo "Package validator was not installed globally" && exit 1)
-  - >
-    sudo docker exec --tty "$(cat ${container_id})" env TERM=xterm ls /home/test/.npm-global/lib/node_modules/jsdom &>/dev/null
-    && (echo "Package jsdom was installed globally for test user" && exit 0)
-    || (echo "Package jsdom was not installed globally for test user" && exit 1)
   - 'sudo docker exec --tty "$(cat ${container_id})" env TERM=xterm which node'
   - 'sudo docker exec --tty "$(cat ${container_id})" env TERM=xterm node -v'
   - 'sudo docker exec --tty "$(cat ${container_id})" env TERM=xterm bash --login -c "npm root -g"'
