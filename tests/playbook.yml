@@ -13,7 +13,6 @@
       - name: 'test'
     account_users:
       - name: 'test'
-        sudoer: yes
         createhome: yes
     nodejs_version: '7.x'
     nodejs_npm_global_user: 'root'
