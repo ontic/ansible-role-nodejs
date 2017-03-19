@@ -3,17 +3,25 @@
 ## Example
 
 ```
-nodejs_version: '6.x'
+nodejs_version: '7.x'
+nodejs_packages:
+  - name: build-essential
+  - name: pkg-config
+  - name: libcairo2-dev
+  - name: libpango1.0-dev
+  - name: libssl-dev
+  - name: libjpeg62-dev libgif-dev
 nodejs_npm_global_user: 'web'
 nodejs_npm_global_group: 'web'
-nodejs_npm_global_config_prefix: '~/.npm-global'
-nodejs_npm_global_config_unsafe_perm: 'true'
+nodejs_npm_global_config_prefix: '/usr/local/lib/npm'
+nodejs_npm_global_config_unsafe_perm: 'false'
 nodejs_npm_global_packages:
   - name: 'node-sass'
   - name: 'jslint'
-	version: '0.10.0'
-  - name: 'colors'
-	state: 'absent'
+nodejs_npm_packages:
+  - name: 'paper'
+    user: 'web'
+    path: '~/application'
 ```
 
 ## Role Variables
@@ -26,6 +34,14 @@ nodejs_version: '6.x'
 
 The Node.js version to install. `6.x` is the default and should work on the latest versions of
 Debian/Ubuntu and RHEL/CentOS.
+
+```
+nodejs_packages:
+```
+
+A list of the Node.js packages to install. Each package supports all parameters from the
+[apt](http://docs.ansible.com/ansible/apt_module.html) or [yum](http://docs.ansible.com/ansible/yum_module.html) modules.
+This can be helpful when NPM packages depend on system packages.
 
 ```
 nodejs_npm_global_user:
@@ -59,3 +75,11 @@ nodejs_npm_global_packages:
 A list of the Node.js packages to install globally. Each package supports all parameters from the
 [npm](http://docs.ansible.com/ansible/npm_module.html) module, with the exception of the `global`
 parameter being hard-coded to `yes`
+
+```
+nodejs_npm_packages:
+```
+
+A list of the Node.js packages to install. Each package supports all parameters from the
+[npm](http://docs.ansible.com/ansible/npm_module.html) module. An additional parameter `user` must be
+specified, which determines what user is responsible for executing the installation of a package.

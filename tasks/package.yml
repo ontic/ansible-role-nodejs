@@ -87,6 +87,38 @@
     group: 'root'
     mode: '0644'
 
+- name: 'Node.js | Debian | Install Node.js packages.'
+  become: yes
+  apt:
+    name: '{{ item.name if item.version is not defined else item.name + "=" + item.version }}'
+    cache_valid_time: '{{ item.cache_valid_time | default(omit) }}'
+    deb: '{{ item.deb | default(omit) }}'
+    default_release: '{{ item.default_release | default(omit) }}'
+    dpkg_options: '{{ item.dpkg_options | default(omit) }}'
+    force: '{{ item.force | default(omit) }}'
+    install_recommends: '{{ item.install_recommends | default(omit) }}'
+    purge: '{{ item.purge | default(omit) }}'
+    state: '{{ item.state | default(omit) }}'
+    update_cache: '{{ item.update_cache | default(omit) }}'
+    upgrade: '{{ item.upgrade | default(omit) }}'
+  with_items: '{{ nodejs_packages }}'
+  when: '{{ nodejs_packages and ansible_os_family == "Debian" }}'
+
+- name: 'Node.js | RedHat | Install Node.js packages.'
+  become: yes
+  yum:
+    name: '{{ item.name if item.version is not defined else item.name + "-" + item.version }}'
+    conf_file: '{{ item.conf_file | default(omit) }}'
+    disable_gpg_check: '{{ item.disable_gpg_check | default(omit) }}'
+    disablerepo: '{{ item.disablerepo | default(omit) }}'
+    enablerepo: '{{ item.enablerepo | default(omit) }}'
+    exclude: '{{ item.exclude | default(omit) }}'
+    list: '{{ item.list | default(omit) }}'
+    state: '{{ item.state | default(omit) }}'
+    update_cache: '{{ item.update_cache | default(omit) }}'
+  with_items: '{{ nodejs_packages }}'
+  when: '{{ nodejs_packages and ansible_os_family == "RedHat" }}'
+
 # TODO: Remove this task after Ansible 2.x npm module bug is fixed. See:
 # https://github.com/ansible/ansible-modules-extras/issues/1375
 - name: 'Node.js | Ensure NPM global packages are installed.'
