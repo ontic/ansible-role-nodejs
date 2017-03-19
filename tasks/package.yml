@@ -69,10 +69,9 @@
     state: 'present'
   when: '{{ ansible_os_family == "RedHat" }}'
 
-# TODO: Remove this task after Ansible 2.x npm module bug is fixed. See:
-# https://github.com/ansible/ansible-modules-extras/issues/1375
-- name: 'Node.js | Ensure NPM global packages are installed.'
+- name: 'Node.js | Install NPM packages.'
   become: yes
+  become_user: '{{ item.user | default(ansible_user) }}'
   npm:
     name: '{{ item.name }}'
     version: '{{ item.version | default("latest") }}'
@@ -82,29 +81,6 @@
     production: '{{ item.production | default(omit) }}'
     registry: '{{ item.registry | default(omit) }}'
     state: '{{ item.state | default(omit) }}'
-    global: yes
-  environment:
-    NPM_CONFIG_PREFIX: '{{ nodejs_npm_global_config_prefix }}'
-    NODE_PATH: '{{ nodejs_npm_global_config_prefix }}/lib/node_modules'
-    NPM_CONFIG_UNSAFE_PERM: '{{ nodejs_npm_global_config_unsafe_perm }}'
+    global: '{{ item.global | default(omit) }}'
   with_items: '{{ nodejs_npm_global_packages }}'
   when: '{{ nodejs_npm_global_packages }}'
-
-- name: 'Node.js | Ensure NPM global packages are the latest release.'
-  become: yes
-  npm:
-    name: '{{ item.name }}'
-    version: '{{ item.version | default("latest") }}'
-    executable: '{{ item.executable | default(omit) }}'
-    ignore_scripts: '{{ item.ignore_scripts | default(omit) }}'
-    path: '{{ item.path | default(omit) }}'
-    production: '{{ item.production | default(omit) }}'
-    registry: '{{ item.registry | default(omit) }}'
-    state: 'latest'
-    global: yes
-  environment:
-    NPM_CONFIG_PREFIX: '{{ nodejs_npm_global_config_prefix }}'
-    NODE_PATH: '{{ nodejs_npm_global_config_prefix }}/lib/node_modules'
-    NPM_CONFIG_UNSAFE_PERM: '{{ nodejs_npm_global_config_unsafe_perm }}'
-  with_items: '{{ nodejs_npm_global_packages }}'
-  when: '{{ nodejs_npm_global_packages and item.state | default("present") != "absent" }}'

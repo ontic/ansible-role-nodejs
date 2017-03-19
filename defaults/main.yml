@@ -8,8 +8,4 @@
 ---
 
 nodejs_version: '6.x'
-nodejs_npm_global_user:
-nodejs_npm_global_group:
-nodejs_npm_global_config_prefix: '/usr/local/lib/npm'
-nodejs_npm_global_config_unsafe_perm: 'false'
-nodejs_npm_global_packages:
+nodejs_npm_packages:

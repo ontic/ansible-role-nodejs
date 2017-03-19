@@ -9,16 +9,14 @@
 
 - hosts: 'all'
   vars:
-    nodejs_version: '6.x'
-    nodejs_npm_global_user: 'root'
-    nodejs_npm_global_config_prefix: '/root/.npm-global'
-    nodejs_npm_global_config_unsafe_perm: 'true'
-    nodejs_npm_global_packages:
+    nodejs_version: '7.x'
+    nodejs_npm_packages:
       - name: 'node-sass'
+        global: yes
       - name: 'jslint'
-        version: '0.10.0'
-      - name: 'colors'
-        state: 'absent'
+        user: 'travis'
+        state: 'latest'
+        global: yes
   pre_tasks:
     - name: 'Update apt cache.'
       apt:

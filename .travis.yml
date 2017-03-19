@@ -40,6 +40,14 @@ script:
     | tee /tmp/output.txt; grep -q "changed=0.*unreachable=0.*failed=0" /tmp/output.txt
     && (echo "Idempotence test: Passed" && exit 0)
     || (echo "Idempotence test: Failed" && exit 1)
+  - >
+    sudo docker exec --tty "$(cat ${container_id})" env TERM=xterm ls /usr/local/lib/npm/lib/node_modules/node-sass &>/dev/null
+    && (echo "Package node-sass was installed globally for sudo user" && exit 0)
+    || (echo "Package node-sass was not installed globally for sudo user" && exit 1)
+  - >
+    sudo docker exec --tty "$(cat ${container_id})" env TERM=xterm ls /home/travis/.npm-global/lib/node_modules/jslint &>/dev/null
+    && (echo "Package jslint was installed globally for travis user" && exit 0)
+    || (echo "Package jslint was not installed globally for travis user" && exit 1)
   - 'sudo docker exec --tty "$(cat ${container_id})" env TERM=xterm which node'
   - 'sudo docker exec --tty "$(cat ${container_id})" env TERM=xterm node -v'
   - 'sudo docker exec --tty "$(cat ${container_id})" env TERM=xterm bash --login -c "npm list -g --depth=0 node-sass"'

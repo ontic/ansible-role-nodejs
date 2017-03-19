@@ -12,9 +12,7 @@
   tags:
     - 'nodejs'
     - 'nodejs-package'
-    - 'nodejs-configure'
     - 'package'
-    - 'configure'
 
 - name: 'Node.js | Include distribution-specific variables.'
   include_vars: 'RedHat-7.yml'
@@ -22,40 +20,10 @@
   tags:
     - 'nodejs'
     - 'nodejs-package'
-    - 'nodejs-configure'
     - 'package'
-    - 'configure'
-
-- name: 'Node.js | Define NPM user.'
-  set_fact:
-    nodejs_npm_global_user: '{{ ansible_user }}'
-  when: '{{ not nodejs_npm_global_user }}'
-  tags:
-    - 'nodejs'
-    - 'nodejs-package'
-    - 'nodejs-configure'
-    - 'package'
-    - 'configure'
-
-- name: 'Node.js | Define NPM group.'
-  set_fact:
-    nodejs_npm_global_group: '{{ nodejs_npm_global_user }}'
-  when: '{{ not nodejs_npm_global_group }}'
-  tags:
-    - 'nodejs'
-    - 'nodejs-package'
-    - 'nodejs-configure'
-    - 'package'
-    - 'configure'
 
 - include: 'package.yml'
   tags:
     - 'nodejs'
     - 'nodejs-package'
     - 'package'
-
-- include: 'configure.yml'
-  tags:
-    - 'nodejs'
-    - 'nodejs-configure'
-    - 'configure'
