@@ -51,8 +51,6 @@ script:
   - 'sudo docker exec --tty "$(cat ${container_id})" env TERM=xterm which node'
   - 'sudo docker exec --tty "$(cat ${container_id})" env TERM=xterm node -v'
   - 'sudo docker exec --tty "$(cat ${container_id})" env TERM=xterm bash --login -c "npm root -g"'
-  - 'sudo docker exec --tty "$(cat ${container_id})" env TERM=xterm bash --login -c "npm list -g --depth=0 node-sass"'
-  - 'sudo docker exec --tty "$(cat ${container_id})" env TERM=xterm bash --login -c "npm list -g --depth=0 jslint"'
   - 'sudo docker stop "$(cat ${container_id})"'
 
 notifications:
