@@ -10,7 +10,8 @@ nodejs_packages:
   - name: libcairo2-dev
   - name: libpango1.0-dev
   - name: libssl-dev
-  - name: libjpeg62-dev libgif-dev
+  - name: libjpeg62-dev
+  - name: libgif-dev
 nodejs_npm_global_user: 'web'
 nodejs_npm_global_group: 'web'
 nodejs_npm_global_config_prefix: '/usr/local/lib/npm'
