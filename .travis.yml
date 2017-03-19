@@ -50,8 +50,8 @@ script:
     || (echo "Package validator was not installed globally" && exit 1)
   - >
     sudo docker exec --tty "$(cat ${container_id})" env TERM=xterm ls /home/test/.npm-global/lib/node_modules/jsdom &>/dev/null
-    && (echo "Package jsdom was installed globally" && exit 0)
-    || (echo "Package jsdom was not installed globally" && exit 1)
+    && (echo "Package jsdom was installed globally for test user" && exit 0)
+    || (echo "Package jsdom was not installed globally for test user" && exit 1)
   - 'sudo docker exec --tty "$(cat ${container_id})" env TERM=xterm which node'
   - 'sudo docker exec --tty "$(cat ${container_id})" env TERM=xterm node -v'
   - 'sudo docker exec --tty "$(cat ${container_id})" env TERM=xterm bash --login -c "npm root -g"'
