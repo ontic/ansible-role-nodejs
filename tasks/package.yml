@@ -82,5 +82,5 @@
     registry: '{{ item.registry | default(omit) }}'
     state: '{{ item.state | default(omit) }}'
     global: '{{ item.global | default(omit) }}'
-  with_items: '{{ nodejs_npm_global_packages }}'
-  when: '{{ nodejs_npm_global_packages }}'
+  with_items: '{{ nodejs_npm_packages }}'
+  when: '{{ nodejs_npm_packages }}'
