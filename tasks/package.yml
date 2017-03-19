@@ -140,5 +140,9 @@
     registry: '{{ item.registry | default(omit) }}'
     state: '{{ item.state | default(omit) }}'
     global: '{{ item.global | default(omit) }}'
+  environment:
+    NPM_CONFIG_PREFIX: '{{ nodejs_npm_global_config_prefix }}'
+    NODE_PATH: '{{ nodejs_npm_global_config_prefix }}/lib/node_modules'
+    NPM_CONFIG_UNSAFE_PERM: '{{ nodejs_npm_global_config_unsafe_perm }}'
   with_items: '{{ nodejs_npm_packages }}'
   when: '{{ nodejs_npm_packages and item.user is defined }}'

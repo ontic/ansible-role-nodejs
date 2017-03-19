@@ -17,7 +17,7 @@
     nodejs_version: '7.x'
     nodejs_npm_global_user: 'root'
     nodejs_npm_global_config_prefix: '/root/.npm-global'
-    nodejs_npm_global_config_unsafe_perm: 'false'
+    nodejs_npm_global_config_unsafe_perm: 'true'
     nodejs_npm_global_packages:
       - name: 'underscore'
       - name: 'validator'
