@@ -71,7 +71,7 @@
 
 - name: 'Node.js | Install NPM packages.'
   become: yes
-  become_user: '{{ item.user | default(nodejs_npm_user) }}'
+  become_user: '{{ item.user | default(omit) }}'
   npm:
     name: '{{ item.name }}'
     version: '{{ item.version | default("latest") }}'
