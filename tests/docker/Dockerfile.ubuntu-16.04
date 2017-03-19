@@ -4,6 +4,7 @@ RUN apt-get update
 RUN apt install -y software-properties-common git
 RUN apt-add-repository -y ppa:ansible/ansible
 RUN apt -y update && apt -y install ansible
+RUN ansible-galaxy install ontic.account
 RUN ansible-galaxy install ontic.nodejs
 
 COPY docker/initctl_faker .
