@@ -4,6 +4,7 @@ RUN apt-get update
 RUN apt install -y software-properties-common git
 RUN apt-add-repository -y ppa:ansible/ansible
 RUN apt -y update && apt -y install ansible
+RUN pip install git+git://github.com/ansible/ansible.git@devel
 RUN ansible-galaxy install ontic.account
 RUN ansible-galaxy install ontic.nodejs
 
