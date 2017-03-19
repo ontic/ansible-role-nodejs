@@ -41,7 +41,7 @@ script:
     && (echo "Idempotence test: Passed" && exit 0)
     || (echo "Idempotence test: Failed" && exit 1)
   - >
-    sudo docker exec --tty "$(cat ${container_id})" env TERM=xterm ls /usr/local/lib/npm/lib/node_modules/node-sass &>/dev/null
+    sudo docker exec --tty "$(cat ${container_id})" env TERM=xterm ls /root/.npm-global/lib/node_modules/node-sass &>/dev/null
     && (echo "Package node-sass was installed globally for sudo user" && exit 0)
     || (echo "Package node-sass was not installed globally for sudo user" && exit 1)
   - >

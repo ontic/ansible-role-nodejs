@@ -10,12 +10,20 @@
 - hosts: 'all'
   vars:
     nodejs_version: '7.x'
+    nodejs_npm_global_user: 'root'
+    nodejs_npm_global_config_prefix: '/root/.npm-global'
+    nodejs_npm_global_config_unsafe_perm: 'false'
+    nodejs_npm_global_packages:
+      - name: 'node-sass'
+      - name: 'jslint'
+        version: '0.10.0'
     nodejs_npm_packages:
       - name: 'node-sass'
+        user: 'travis'
         global: yes
       - name: 'jslint'
         user: 'travis'
-        state: 'latest'
+        version: '0.10.0'
         global: yes
   pre_tasks:
     - name: 'Update apt cache.'

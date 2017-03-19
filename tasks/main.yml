@@ -22,6 +22,24 @@
     - 'nodejs-package'
     - 'package'
 
+- name: 'Node.js | Define NPM user.'
+  set_fact:
+    nodejs_npm_global_user: '{{ ansible_user }}'
+  when: '{{ not nodejs_npm_global_user }}'
+  tags:
+    - 'nodejs'
+    - 'nodejs-package'
+    - 'package'
+
+- name: 'Node.js | Define NPM group.'
+  set_fact:
+    nodejs_npm_global_group: '{{ nodejs_npm_global_user }}'
+  when: '{{ not nodejs_npm_global_group }}'
+  tags:
+    - 'nodejs'
+    - 'nodejs-package'
+    - 'package'
+
 - include: 'package.yml'
   tags:
     - 'nodejs'
