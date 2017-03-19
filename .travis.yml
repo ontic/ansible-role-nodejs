@@ -42,12 +42,12 @@ script:
     || (echo "Idempotence test: Failed" && exit 1)
   - >
     sudo docker exec --tty "$(cat ${container_id})" env TERM=xterm ls /root/.npm-global/lib/node_modules/node-sass &>/dev/null
-    && (echo "Package node-sass was installed globally for sudo user" && exit 0)
-    || (echo "Package node-sass was not installed globally for sudo user" && exit 1)
+    && (echo "Package node-sass was installed globally" && exit 0)
+    || (echo "Package node-sass was not installed globally" && exit 1)
   - >
-    sudo docker exec --tty "$(cat ${container_id})" env TERM=xterm ls /home/travis/.npm-global/lib/node_modules/jslint &>/dev/null
-    && (echo "Package jslint was installed globally for travis user" && exit 0)
-    || (echo "Package jslint was not installed globally for travis user" && exit 1)
+    sudo docker exec --tty "$(cat ${container_id})" env TERM=xterm ls /root/.npm-global/lib/node_modules/jslint &>/dev/null
+    && (echo "Package jslint was installed globally" && exit 0)
+    || (echo "Package jslint was not installed globally" && exit 1)
   - 'sudo docker exec --tty "$(cat ${container_id})" env TERM=xterm which node'
   - 'sudo docker exec --tty "$(cat ${container_id})" env TERM=xterm node -v'
   - 'sudo docker exec --tty "$(cat ${container_id})" env TERM=xterm bash --login -c "npm root -g"'
