@@ -1,9 +1,5 @@
-# This source file is subject to the (Open Source Initiative) BSD license
-# that is bundled with this package in the LICENSE file. It is also available
-# through the world-wide-web at this URL: http://www.ontic.com.au/license.html
-# If you did not receive a copy of the license and are unable to obtain it through
-# the world-wide-web, please send an email to license@ontic.com.au immediately.
-# Copyright (c) 2010-2016 Ontic. (http://www.ontic.com.au). All rights reserved.
+# Copyright (c) Ontic. (http://www.ontic.com.au). All rights reserved.
+# See the COPYING file bundled with this package for license details.
 
 ---
 
@@ -12,7 +8,7 @@
   apt:
     name: 'apt-transport-https'
     state: 'present'
-  when: '{{ ansible_os_family == "Debian" }}'
+  when: 'ansible_os_family == "Debian"'
 
 - name: 'Node.js | Debian | Update repository key.'
   become: yes
@@ -21,7 +17,7 @@
     url: 'https://keyserver.ubuntu.com/pks/lookup?op=get&fingerprint=on&search=0x1655A0AB68576280'
     state: 'present'
   register: 'nodejs_key'
-  when: '{{ ansible_os_family == "Debian" }}'
+  when: 'ansible_os_family == "Debian"'
 
 - name: 'Node.js | Debian | Update repository list.'
   become: yes
@@ -32,34 +28,34 @@
   with_items:
     - 'deb https://deb.nodesource.com/node_{{ nodejs_version }} {{ ansible_distribution_release }} main'
     - 'deb-src https://deb.nodesource.com/node_{{ nodejs_version }} {{ ansible_distribution_release }} main'
-  when: '{{ ansible_os_family == "Debian" }}'
+  when: 'ansible_os_family == "Debian"'
 
 - name: 'Node.js | Debian | Update APT cache.'
   become: yes
   apt:
     update_cache: yes
-  when: '{{ ansible_os_family == "Debian" and (nodejs_key.changed or nodejs_list.changed) }}'
+  when: 'ansible_os_family == "Debian" and (nodejs_key.changed or nodejs_list.changed)'
 
 - name: 'Node.js | Debian | Install Node.js.'
   become: yes
   apt:
     name: 'nodejs={{ nodejs_version|regex_replace("x", "") }}*'
     state: 'present'
-  when: '{{ ansible_os_family == "Debian" }}'
+  when: 'ansible_os_family == "Debian"'
 
 - name: 'Node.js | RedHat | Import GPG keys.'
   become: yes
   rpm_key:
     key: '{{ nodejs_rpm_key }}'
     state: 'present'
-  when: '{{ ansible_os_family == "RedHat" }}'
+  when: 'ansible_os_family == "RedHat"'
 
 - name: 'Node.js | RedHat | Install Node.js source repository.'
   become: yes
   yum:
     name: '{{ nodejs_rpm_url }}'
     state: 'present'
-  when: '{{ ansible_os_family == "RedHat" }}'
+  when: 'ansible_os_family == "RedHat"'
 
 - name: 'Node.js | RedHat | Install Node.js.'
   become: yes
@@ -67,7 +63,7 @@
     name: 'nodejs-{{ nodejs_version[0] }}.*'
     enablerepo: 'epel,nodesource'
     state: 'present'
-  when: '{{ ansible_os_family == "RedHat" }}'
+  when: 'ansible_os_family == "RedHat"'
 
 - name: 'Node.js | Ensure the NPM global directory exists.'
   become: yes
@@ -102,7 +98,7 @@
     update_cache: '{{ item.update_cache | default(omit) }}'
     upgrade: '{{ item.upgrade | default(omit) }}'
   with_items: '{{ nodejs_packages }}'
-  when: '{{ nodejs_packages and ansible_os_family == "Debian" }}'
+  when: 'nodejs_packages and ansible_os_family == "Debian"'
 
 - name: 'Node.js | RedHat | Install Node.js packages.'
   become: yes
@@ -117,7 +113,7 @@
     state: '{{ item.state | default(omit) }}'
     update_cache: '{{ item.update_cache | default(omit) }}'
   with_items: '{{ nodejs_packages }}'
-  when: '{{ nodejs_packages and ansible_os_family == "RedHat" }}'
+  when: 'nodejs_packages and ansible_os_family == "RedHat"'
 
 # TODO: Remove this task after Ansible 2.x npm module bug is fixed. See:
 # https://github.com/ansible/ansible-modules-extras/issues/1375
@@ -138,7 +134,7 @@
     NODE_PATH: '{{ nodejs_npm_global_config_prefix }}/lib/node_modules'
     NPM_CONFIG_UNSAFE_PERM: '{{ nodejs_npm_global_config_unsafe_perm }}'
   with_items: '{{ nodejs_npm_global_packages }}'
-  when: '{{ nodejs_npm_global_packages }}'
+  when: 'nodejs_npm_global_packages'
 
 - name: 'Node.js | Ensure NPM global packages are the latest release.'
   become: yes
@@ -157,7 +153,7 @@
     NODE_PATH: '{{ nodejs_npm_global_config_prefix }}/lib/node_modules'
     NPM_CONFIG_UNSAFE_PERM: '{{ nodejs_npm_global_config_unsafe_perm }}'
   with_items: '{{ nodejs_npm_global_packages }}'
-  when: '{{ nodejs_npm_global_packages and item.state | default("present") != "absent" }}'
+  when: 'nodejs_npm_global_packages and item.state | default("present") != "absent"'
 
 - name: 'Node.js | Install NPM packages.'
   become: yes
@@ -173,4 +169,4 @@
     state: '{{ item.state | default(omit) }}'
     global: '{{ item.global | default(omit) }}'
   with_items: '{{ nodejs_npm_packages }}'
-  when: '{{ nodejs_npm_packages and item.user is defined }}'
+  when: 'nodejs_npm_packages and item.user is defined'
