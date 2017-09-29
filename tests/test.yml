@@ -15,5 +15,4 @@
         version: '7.0.0'
     nodejs_npm_packages:
   roles:
-    - { role: 'ontic.account' }
     - { role: 'role_under_test' }
