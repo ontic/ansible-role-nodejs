@@ -7,4 +7,4 @@ docker exec --tty ${container_id} env TERM=xterm which node
 docker exec --tty ${container_id} env TERM=xterm node -v
 
 # Verify the installed global packages.
-docker exec --tty ${container_id} env TERM=xterm bash --login -c "npm root -g"
+docker exec --tty ${container_id} env TERM=xterm npm list -g --depth=0
