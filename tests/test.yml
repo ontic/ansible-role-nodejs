@@ -3,9 +3,9 @@
 
 ---
 
-- hosts: 'all'
+- hosts: 'localhost'
   vars:
-    nodejs_version: '7.x'
+    nodejs_version: '8.x'
     nodejs_npm_global_user: 'root'
     nodejs_npm_global_config_prefix: '/root/.npm-global'
     nodejs_npm_global_config_unsafe_perm: 'true'
@@ -14,11 +14,6 @@
       - name: 'validator'
         version: '7.0.0'
     nodejs_npm_packages:
-  pre_tasks:
-    - name: 'Update apt cache.'
-      apt:
-        update_cache: yes
-        cache_valid_time: 600
-      when: 'ansible_os_family == "Debian"'
   roles:
-    - { role: 'ontic.nodejs' }
+    - { role: 'ontic.account' }
+    - { role: 'role_under_test' }

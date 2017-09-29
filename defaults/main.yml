@@ -3,7 +3,7 @@
 
 ---
 
-nodejs_version: '6.x'
+nodejs_version: '8.x'
 nodejs_packages:
 nodejs_npm_global_user:
 nodejs_npm_global_group:
