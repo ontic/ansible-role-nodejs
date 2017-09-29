@@ -3,15 +3,9 @@
 ## Example
 
 ```
-nodejs_version: '7.x'
+nodejs_version: '8.x'
 nodejs_packages:
-  - name: build-essential
-  - name: pkg-config
-  - name: libcairo2-dev
-  - name: libpango1.0-dev
-  - name: libssl-dev
-  - name: libjpeg62-dev
-  - name: libgif-dev
+  - name: 'imagemagick'
 nodejs_npm_global_user: 'web'
 nodejs_npm_global_group: 'web'
 nodejs_npm_global_config_prefix: '/usr/local/lib/npm'
@@ -20,7 +14,7 @@ nodejs_npm_global_packages:
   - name: 'node-sass'
   - name: 'jslint'
 nodejs_npm_packages:
-  - name: 'paper'
+  - name: 'paper-jsdom'
     user: 'web'
     path: '~/application'
 ```
@@ -30,10 +24,10 @@ nodejs_npm_packages:
 Available variables are listed below, along with default values (see [defaults/main.yml](/defaults/main.yml)):
 
 ```
-nodejs_version: '6.x'
+nodejs_version: '8.x'
 ```
 
-The Node.js version to install. `6.x` is the default and should work on the latest versions of
+The Node.js version to install. `8.x` is the default and should work on the latest versions of
 Debian/Ubuntu and RHEL/CentOS.
 
 ```
