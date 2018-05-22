@@ -10,14 +10,6 @@
     - 'nodejs-package'
     - 'package'
 
-- name: 'Node.js | Include distribution-specific variables.'
-  include_vars: 'RedHat-7.yml'
-  when: 'ansible_os_family == "RedHat" and ansible_distribution_major_version == "7"'
-  tags:
-    - 'nodejs'
-    - 'nodejs-package'
-    - 'package'
-
 - name: 'Node.js | Define NPM user.'
   set_fact:
     nodejs_npm_global_user: '{{ ansible_user }}'
@@ -36,7 +28,7 @@
     - 'nodejs-package'
     - 'package'
 
-- include: 'package.yml'
+- import_tasks: 'package.yml'
   tags:
     - 'nodejs'
     - 'nodejs-package'
